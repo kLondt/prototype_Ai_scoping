@@ -16,15 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls import path
-from transcript_parser.views import TranscriptUploadView
-from transcript_parser.views import GenerateHackathonDocumentView
+from transcript_parser.views import TranscriptUploadView, GenerateHackathonDocumentView, EditDocumentView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('upload-transcript/', TranscriptUploadView.as_view(), name='upload-transcript'),
-
-]
-urlpatterns += [
     path('generate-document/', GenerateHackathonDocumentView.as_view(), name='generate-document'),
+    path('edit-document/', EditDocumentView.as_view(), name='edit-document'),
 ]
+
+# Serve static files during development
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
